@@ -1,0 +1,184 @@
+#ifndef _LIST_HH_
+#define _LIST_HH_
+
+#include <iostream>
+#include <memory>
+#include <stdlib.h>
+
+using namespace std;
+
+template <typename T, typename Alloc = allocator<T> >
+class MyList
+{
+    public:
+
+/*/////////////////////////////////////////////////
+ *
+ *      Member Typedefine
+ *
+ *//////////////////////////////////////////////////
+
+        typedef Alloc allocator_type;
+        typedef size_t size_type;
+        typedef T value_type;
+        typedef value_type* pointer;
+        typedef const value_type* const_pointer;
+        typedef value_type& reference;
+        typedef const value_type& const_reference;
+        typedef ptrdiff_t difference_type;
+
+/*////////////////////////////////////////////////
+ *
+ *      Node Definition
+ *
+ *///////////////////////////////////////////////
+
+        class Node
+        {
+            public:
+
+                Node():data(NULL), next(NULL), prev(NULL) {}
+
+                Node(value_type _data, Node* _next, Node* _prev)
+                {
+                    this->data = _data;
+                    this->next = _next;
+                    this->prev = _prev;
+                }
+
+                value_type getData()
+                {
+                    return this->data;
+                }
+
+                Node* getNext()
+                {
+                    return next;
+                }
+
+                Node* getPrev()
+                {
+                    return prev;
+                }
+
+                void setData(value_type &_data)
+                {
+                    this->data = _data;
+                }
+
+                void setNext(Node* _next)
+                {
+                    this->next = _next;
+                }
+
+                void setPrev(Node* _prev)
+                {
+                    this->prev = _prev;
+                }
+
+            private:
+                value_type data;
+                Node* next;
+                Node* prev;
+        };
+
+        class iterator
+        {
+            public:
+                
+
+            private:
+        };
+        
+    Node* head; 
+    Node* tail;
+
+/*////////////////////////////////////
+ *
+ *      Constructor
+ *
+ *////////////////////////////////////
+
+    explicit MyList()
+    {
+        this->head = NULL;
+        this->tail = NULL;
+    }
+
+    explicit MyList(size_type _n, const value_type& _val):head(NULL), tail(NULL)
+    {
+        for(int i=0; i<_n; i++)
+        {
+            push_back(_val);
+        }
+    }
+
+
+/*//////////////////////////////////////////
+ *
+ *      Member functions
+ *
+ *//////////////////////////////////////////
+
+    void push_back(value_type _val)
+    {
+        allocator_type alloc;
+
+        Node* new_node = alloc.allocate(sizeof(Node));
+        new_node.setData(_val);
+
+        if(head == NULL)
+        {
+            head = new_node;
+            tail = new_node;
+
+            return;
+        }
+        else
+        {
+            Node* cur = head;
+            
+            while(cur != NULL)
+            {
+                cur = cur->next;
+            }
+
+            cur.setNext(new_node);
+            new_node.setPrev(cur);
+
+            return;
+        }
+    }
+
+    bool empty() const
+    {
+        if(head == NULL)
+            return true;
+        else
+            return false;
+    }
+
+    void printList(MyList& _list)
+    {
+        Node* cur = head;
+
+        while(cur != NULL)
+        {
+            cout << cur->data << "-->";
+            cur = cur->next;
+        }
+        cout << endl;
+    }
+
+    private:
+};
+
+int main()
+{
+    MyList<string> first;
+
+    MyList<string> second(100, "A"); 
+    
+    return 0;
+}
+#endif
