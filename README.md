@@ -8,4 +8,4 @@ http://www.cplusplus.com/
 
 It was just for adapting C++
 
-Much source codes are maded by Hyuncheol & Kwanghee
+Some source codes are maded by Hyuncheol & Kwanghee
